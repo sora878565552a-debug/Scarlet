@@ -15,7 +15,42 @@
       "world": "希灵归来",
       "regex_scripts": [
         {
-          "id": "ccc8004f-14d1-40ed-8d71-4a94c8da3f08",
+          "id": "1246e8e0-a5e7-4bd0-b33c-75367775be1c",
+          "scriptName": "[不发送]去除变量更新",
+          "disabled": false,
+          "runOnEdit": false,
+          "findRegex": "/<update(?:variable)?>(?:(?!.*<\\/update(?:variable)?>).*$|.*<\\/update(?:variable)?>)/gsi",
+          "replaceString": "",
+          "trimStrings": [],
+          "placement": [
+            1,
+            2
+          ],
+          "substituteRegex": 0,
+          "minDepth": null,
+          "maxDepth": 3,
+          "markdownOnly": false,
+          "promptOnly": true
+        },
+        {
+          "id": "8e60ab28-19ca-4dc1-9fa3-6f65cf87728c",
+          "scriptName": "[不发送]界面占位符",
+          "disabled": false,
+          "runOnEdit": false,
+          "findRegex": "<StatusPlaceHolderImpl/>",
+          "replaceString": "",
+          "trimStrings": [],
+          "placement": [
+            2
+          ],
+          "substituteRegex": 0,
+          "minDepth": null,
+          "maxDepth": null,
+          "markdownOnly": false,
+          "promptOnly": true
+        },
+        {
+          "id": "4bb142d7-536d-4688-9b35-5b3528afdc93",
           "scriptName": "[界面]状态栏",
           "disabled": false,
           "runOnEdit": false,
@@ -33,7 +68,42 @@
         }
       ],
       "tavern_helper": {
-        "scripts": [],
+        "scripts": [
+          {
+            "name": "mvu",
+            "id": "a9573d44-b872-4406-8e9e-a88a7ff56fbd",
+            "enabled": true,
+            "type": "script",
+            "content": "import 'https://testingcf.jsdelivr.net/gh/MagicalAstrogy/MagVarUpdate/artifact/bundle.js';",
+            "info": "",
+            "button": {
+              "enabled": true,
+              "buttons": []
+            },
+            "data": {},
+            "export_with": {
+              "data": true,
+              "button": true
+            }
+          },
+          {
+            "name": "变量结构",
+            "id": "d8c8b8f7-d129-48c0-bb35-925bf598da77",
+            "enabled": true,
+            "type": "script",
+            "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';\nimport 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_helper_template/dist/角色卡名称/脚本/变量结构/index.js';",
+            "info": "",
+            "button": {
+              "enabled": true,
+              "buttons": []
+            },
+            "data": {},
+            "export_with": {
+              "data": true,
+              "button": true
+            }
+          }
+        ],
         "variables": {}
       },
       "talkativeness": "0.5",
