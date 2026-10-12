@@ -1,17 +1,21 @@
 import {
   ConsoleData,
   EMPTY_DATA,
+  FACILITY_COST,
+  FACILITY_INFO,
   FACILITY_KEYS,
   FACILITY_LABELS,
   FacilityKey,
   RECOVER_ENERGY_COST,
   RECOVER_MINERAL_COST,
   recoverPlan,
+  requirementText,
 } from './model';
 
 const ICON_ORB = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4"/><circle cx="12" cy="12" r="2"/></svg>`;
 const ICON_CLOSE = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg>`;
 const ICON_RECOVER = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11"/></svg>`;
+const ICON_CHEVRON = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 6.5l3 3 3-3"/></svg>`;
 
 const ORB_STORAGE_KEY = 'xiling:console:orb:v1';
 
@@ -52,8 +56,15 @@ function writeOrbPosition(win: Window, point: Point) {
   }
 }
 
+function stateClass(state: string) {
+  if (state === '运行中') return 'is-run';
+  if (state === '已恢复') return 'is-ready';
+  if (state === '已损毁') return 'is-lost';
+  return 'is-idle';
+}
+
 /** 创建一个带数值与进度条的资源单元。 */
-function resourceCell(label: string, value: number, max: number): string {
+function resourceCell(label: string, value: number, max: number, key: string): string {
   const ratio = max > 0 ? clamp(value / max, 0, 1) : 0;
   const empty = value <= 0 ? ' is-empty' : '';
   return `
@@ -79,6 +90,7 @@ export function createShell(): ConsoleShell {
   overlay.innerHTML = `
     <div class="re0c-frame" role="dialog" aria-modal="true" aria-label="飞船主控台">
       <header class="re0c-head">
+        <span class="re0c-pulse" aria-hidden="true"></span>
         <span class="re0c-title">飞船主控台</span>
         <span class="re0c-sub" data-role="sub">争斗者级登陆艇</span>
         <span class="re0c-spacer"></span>
@@ -95,12 +107,20 @@ export function createShell(): ConsoleShell {
   const closeButton = overlay.querySelector('[data-role="close"]') as HTMLButtonElement;
 
   let current: ConsoleData = EMPTY_DATA;
+  let previous: ConsoleData | null = null;
   let hostDoc: Document | null = null;
   let hostWin: Window | null = null;
+  const expanded = new Set<FacilityKey>();
 
   function setOpen(open: boolean) {
     overlay.classList.toggle('is-open', open);
     if (open) render();
+  }
+
+  /** 数值与上次不同时加一个短暂的闪动，让变化看得见。 */
+  function flashClass(value: number, before: number | undefined) {
+    if (before === undefined || before === value) return '';
+    return value > before ? ' is-up' : ' is-down';
   }
 
   function render() {
@@ -109,42 +129,73 @@ export function createShell(): ConsoleShell {
       return;
     }
 
+    const before = previous;
     sub.textContent = `争斗者级登陆艇｜第三天区舰队`;
+
+    const cells: Array<[string, number, number, number | undefined]> = [
+      ['普通矿物', current.minerals.common, 100, before?.minerals.common],
+      ['导能晶体', current.minerals.crystal, 50, before?.minerals.crystal],
+      ['高密度矿石', current.minerals.dense, 25, before?.minerals.dense],
+      ['普通能量', current.energy, 20, before?.energy],
+      ['幽能', current.eidolon, 1, before?.eidolon],
+    ];
 
     const resources = `
       <section class="re0c-section">
         <div class="re0c-section-head">资源库存</div>
         <div class="re0c-grid">
-          ${resourceCell('普通矿物', current.minerals.common, 100)}
-          ${resourceCell('导能晶体', current.minerals.crystal, 50)}
-          ${resourceCell('高密度矿石', current.minerals.dense, 25)}
-          ${resourceCell('普通能量', current.energy, 20)}
-          ${resourceCell('幽能', current.eidolon, 1)}
+          ${cells
+            .map(([label, value, max, prev]) => {
+              const base = resourceCell(label, value, max, label);
+              const flash = flashClass(value, prev);
+              return flash ? base.replace('data-role="value"', `data-role="value" class="re0c-cell-value${flash}"`) : base;
+            })
+            .join('')}
         </div>
-        <div class="re0c-note">单次恢复消耗 ${RECOVER_ENERGY_COST} 点普通能量；幽能无法由矿物转化取得。</div>
+        <div class="re0c-note">点开任意设施可查看用途与恢复需求。单次恢复消耗 ${RECOVER_ENERGY_COST} 点普通能量；幽能无法由矿物转化取得。</div>
       </section>`;
 
     const facilityRows = FACILITY_KEYS.map(key => {
       const state = current.facilities[key];
       const plan = recoverPlan(current, key);
-      const stateClass =
-        state === '运行中' ? 'is-run' : state === '已恢复' ? 'is-ready' : state === '已损毁' ? 'is-lost' : 'is-idle';
+      const info = FACILITY_INFO[key];
+      const isOpen = expanded.has(key);
+      const cost = FACILITY_COST[key];
+      const reqText = requirementText(key);
       const action = plan
         ? `<button type="button" class="re0c-action" data-role="recover" data-key="${key}">${ICON_RECOVER}<span>启动恢复</span></button>`
         : '';
+
+      const detail = `
+        <div class="re0c-detail" ${isOpen ? '' : 'hidden'}>
+          <dl class="re0c-detail-kv">
+            <dt>用途</dt><dd>${info.role}</dd>
+            <dt>恢复效果</dt><dd>${info.effect}</dd>
+            <dt>恢复需求</dt><dd>${reqText}</dd>
+            ${
+              plan
+                ? `<dt>当前状态</dt><dd class="is-ready">资源已备齐，可以启动恢复。</dd>`
+                : `<dt>当前状态</dt><dd>${info.blocked ? info.blocked : state === '运行中' || state === '已恢复' ? '已投入使用。' : cost === 'none' ? '本阶段不适用。' : '尚未满足恢复条件：需要 ' + reqText + '。'}</dd>`
+            }
+          </dl>
+          <div class="re0c-detail-foot">${action}</div>
+        </div>`;
+
       return `
-        <div class="re0c-facility">
-          <span class="re0c-facility-name">${FACILITY_LABELS[key]}</span>
-          <span class="re0c-tag ${stateClass}">${state}</span>
-          ${action}
+        <div class="re0c-facility${isOpen ? ' is-open' : ''}${plan ? ' is-actionable' : ''}" data-role="facility" data-key="${key}">
+          <div class="re0c-facility-row" data-role="toggle" data-key="${key}" tabindex="0" role="button" aria-expanded="${isOpen}">
+            <span class="re0c-chevron" aria-hidden="true">${ICON_CHEVRON}</span>
+            <span class="re0c-facility-name">${FACILITY_LABELS[key]}</span>
+            <span class="re0c-tag ${stateClass(state)}">${state}</span>
+          </div>
+          ${detail}
         </div>`;
     }).join('');
 
     const facilities = `
       <section class="re0c-section">
         <div class="re0c-section-head">设施状态</div>
-        <div>${facilityRows}</div>
-        <div class="re0c-note">需要 ${RECOVER_ENERGY_COST} 点能量，并按下表准备对应矿物：普通矿物 ${RECOVER_MINERAL_COST.普通矿物}／导能晶体 ${RECOVER_MINERAL_COST.导能晶体}／高密度矿石 ${RECOVER_MINERAL_COST.高密度矿石}。</div>
+        <div class="re0c-facility-list">${facilityRows}</div>
       </section>`;
 
     const ship = `
@@ -160,9 +211,27 @@ export function createShell(): ConsoleShell {
       </section>`;
 
     body.innerHTML = resources + facilities + ship;
+    previous = current;
+
+    body.querySelectorAll<HTMLElement>('[data-role="toggle"]').forEach(row => {
+      const key = row.dataset.key as FacilityKey;
+      const toggle = () => {
+        if (expanded.has(key)) expanded.delete(key);
+        else expanded.add(key);
+        render();
+      };
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggle();
+        }
+      });
+    });
 
     body.querySelectorAll<HTMLButtonElement>('[data-role="recover"]').forEach(button => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', event => {
+        event.stopPropagation();
         const key = button.dataset.key as FacilityKey;
         const plan = recoverPlan(current, key);
         if (!plan) return;
@@ -255,7 +324,10 @@ export function createShell(): ConsoleShell {
 
     win.addEventListener('resize', () => {
       const limit = bounds();
-      place({ x: clamp(parseFloat(orb.style.left) || 0, 8, limit.maxX), y: clamp(parseFloat(orb.style.top) || 0, 8, limit.maxY) });
+      place({
+        x: clamp(parseFloat(orb.style.left) || 0, 8, limit.maxX),
+        y: clamp(parseFloat(orb.style.top) || 0, 8, limit.maxY),
+      });
     });
 
     closeButton.addEventListener('click', () => setOpen(false));
