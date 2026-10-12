@@ -442,7 +442,7 @@
   正则:
     - 正则名称: '[不发送]去除变量更新'
       启用: true
-      查找表达式: /<update(?:variable)?>(?:(?!.*<\/update(?:variable)?>).*$|.*<\/update(?:variable)?>)/gsi
+      查找表达式: /(?:&lt;|<)\s*updatevariable\s*(?:&gt;|>)[\s\S]*?(?:(?:&lt;|<)\s*\/\s*updatevariable\s*(?:&gt;|>)|\s*$)/gi
       替换为: ''
       来源:
         用户输入: true
@@ -450,11 +450,10 @@
       作用于:
         仅格式显示: false
         仅格式提示词: true
-      最大深度: 3
 
     - 正则名称: '[不发送]界面占位符'
       启用: true
-      查找表达式: <StatusPlaceHolderImpl/>
+      查找表达式: /(?:&lt;|<)\s*StatusPlaceHolderImpl\s*\/?\s*(?:&gt;|>)/gi
       替换为: ''
       来源:
         用户输入: false

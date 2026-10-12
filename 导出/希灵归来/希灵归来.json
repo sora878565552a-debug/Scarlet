@@ -15,11 +15,11 @@
       "world": "希灵归来",
       "regex_scripts": [
         {
-          "id": "0fee3cd7-65ac-4b2f-b799-29a5acdba715",
+          "id": "1fbaf84e-81ad-4136-af4b-e87a197a2b78",
           "scriptName": "[不发送]去除变量更新",
           "disabled": false,
           "runOnEdit": false,
-          "findRegex": "/<update(?:variable)?>(?:(?!.*<\\/update(?:variable)?>).*$|.*<\\/update(?:variable)?>)/gsi",
+          "findRegex": "/(?:&lt;|<)\\s*updatevariable\\s*(?:&gt;|>)[\\s\\S]*?(?:(?:&lt;|<)\\s*\\/\\s*updatevariable\\s*(?:&gt;|>)|\\s*$)/gi",
           "replaceString": "",
           "trimStrings": [],
           "placement": [
@@ -28,16 +28,16 @@
           ],
           "substituteRegex": 0,
           "minDepth": null,
-          "maxDepth": 3,
+          "maxDepth": null,
           "markdownOnly": false,
           "promptOnly": true
         },
         {
-          "id": "1447f3f8-1a05-4edf-9641-845a421353a1",
+          "id": "2b2acde8-fa7e-4747-9a26-d396df62acad",
           "scriptName": "[不发送]界面占位符",
           "disabled": false,
           "runOnEdit": false,
-          "findRegex": "<StatusPlaceHolderImpl/>",
+          "findRegex": "/(?:&lt;|<)\\s*StatusPlaceHolderImpl\\s*\\/?\\s*(?:&gt;|>)/gi",
           "replaceString": "",
           "trimStrings": [],
           "placement": [
@@ -50,7 +50,7 @@
           "promptOnly": true
         },
         {
-          "id": "213c229a-c3f0-4b5a-92c3-092f35af731a",
+          "id": "3a6c6915-0ef9-4f30-8357-4650c8f1e9f1",
           "scriptName": "[界面]状态栏",
           "disabled": false,
           "runOnEdit": false,
@@ -71,7 +71,7 @@
         "scripts": [
           {
             "name": "mvu",
-            "id": "add3d15e-5cc8-4adf-bb92-2b041b92d2a3",
+            "id": "77b9277d-5739-43cd-802a-39a6014f904e",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/MagicalAstrogy/MagVarUpdate/artifact/bundle.js';",
@@ -88,7 +88,7 @@
           },
           {
             "name": "变量结构",
-            "id": "106698dc-713b-4f21-af55-87fd1e7528a6",
+            "id": "23be5cb1-b79e-4e32-b3b5-9821daa5c6f9",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';\nimport 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/schema/index.js';",
@@ -105,7 +105,7 @@
           },
           {
             "name": "飞船主控台",
-            "id": "30ed10e3-8a65-477d-a189-42c6f21a880f",
+            "id": "7451bf03-f2ce-4256-becb-96678d46ab25",
             "enabled": true,
             "type": "script",
             "content": "import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/console/index.js';",
