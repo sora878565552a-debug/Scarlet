@@ -15,7 +15,7 @@
       "world": "希灵归来",
       "regex_scripts": [
         {
-          "id": "9bfa36ec-d311-4b16-b587-f313d72870b0",
+          "id": "8f78961c-174d-4851-89f2-d548bc683b91",
           "scriptName": "[不发送]去除变量更新",
           "disabled": false,
           "runOnEdit": false,
@@ -33,7 +33,7 @@
           "promptOnly": true
         },
         {
-          "id": "73c58f43-5d3d-49f0-a317-f30b6f96b712",
+          "id": "94b1a5c6-1e1f-445b-b217-2fabd2586ad2",
           "scriptName": "[不发送]界面占位符",
           "disabled": false,
           "runOnEdit": false,
@@ -50,7 +50,7 @@
           "promptOnly": true
         },
         {
-          "id": "33b1bcf5-ff0c-4219-ab80-9f8ce5fdaade",
+          "id": "dc0704ef-7fd7-4e04-af45-1467b502cd27",
           "scriptName": "[界面]状态栏",
           "disabled": false,
           "runOnEdit": false,
@@ -71,7 +71,7 @@
         "scripts": [
           {
             "name": "mvu",
-            "id": "0eafbaec-c24e-4a31-bf36-bf33bf506bb6",
+            "id": "0c3dd755-9e14-4223-bc4b-0f6e58755fa8",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/MagicalAstrogy/MagVarUpdate/artifact/bundle.js';",
@@ -88,10 +88,27 @@
           },
           {
             "name": "变量结构",
-            "id": "901e08cb-fd13-4632-b45e-ad3db6287962",
+            "id": "24028d0e-d8f6-4b40-904d-1d96d31165d2",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';\nimport 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_helper_template/dist/角色卡名称/脚本/变量结构/index.js';",
+            "info": "",
+            "button": {
+              "enabled": true,
+              "buttons": []
+            },
+            "data": {},
+            "export_with": {
+              "data": true,
+              "button": true
+            }
+          },
+          {
+            "name": "飞船主控台",
+            "id": "ccccecf0-d70e-4be0-8d18-692fd1458195",
+            "enabled": true,
+            "type": "script",
+            "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_helper_template/dist/角色卡名称/脚本/主控台/index.js';",
             "info": "",
             "button": {
               "enabled": true,

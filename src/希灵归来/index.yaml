@@ -495,3 +495,9 @@
         内容: |-
           import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';
           import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_helper_template/dist/角色卡名称/脚本/变量结构/index.js';
+
+      - 名称: 飞船主控台
+        启用: true
+        类型: 脚本
+        内容: |-
+          import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_helper_template/dist/角色卡名称/脚本/主控台/index.js';
