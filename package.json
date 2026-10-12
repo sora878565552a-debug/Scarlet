@@ -13,6 +13,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "dump": "node dump_schema.ts",
+    "publish:web": "node scripts/publish-web.mjs",
     "sync": "node tavern_sync.mjs"
   },
   "browserslist": [
