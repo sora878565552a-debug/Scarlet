@@ -448,7 +448,7 @@
         用户输入: true
         AI输出: true
       作用于:
-        仅格式显示: false
+        仅格式显示: true
         仅格式提示词: true
 
     - 正则名称: '[不发送]界面占位符'
@@ -469,7 +469,7 @@
         ```
         <body>
         <script>
-        $('body').load('https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/status-bar/index.html')
+        $('body').load('https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.2/web/status-bar/index.html')
         </script>
         </body>
         ```
@@ -493,10 +493,10 @@
         类型: 脚本
         内容: |-
           import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';
-          import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/schema/index.js';
+          import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.2/web/schema/index.js';
 
       - 名称: 飞船主控台
         启用: true
         类型: 脚本
         内容: |-
-          import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/console/index.js';
+          import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.2/web/console/index.js';

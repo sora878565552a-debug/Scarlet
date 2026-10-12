@@ -15,7 +15,7 @@
       "world": "希灵归来",
       "regex_scripts": [
         {
-          "id": "b2a0d46d-7436-409f-b89c-61fcbebfea95",
+          "id": "f626548f-1d26-4d6d-a287-8684ea65982b",
           "scriptName": "[不发送]去除变量更新",
           "disabled": false,
           "runOnEdit": false,
@@ -29,11 +29,11 @@
           "substituteRegex": 0,
           "minDepth": null,
           "maxDepth": null,
-          "markdownOnly": false,
+          "markdownOnly": true,
           "promptOnly": true
         },
         {
-          "id": "c23b540d-d13a-4104-8963-81c62e09ad49",
+          "id": "bf22839e-9e33-4a42-9f1c-fe2a84a5827c",
           "scriptName": "[不发送]界面占位符",
           "disabled": false,
           "runOnEdit": false,
@@ -50,12 +50,12 @@
           "promptOnly": true
         },
         {
-          "id": "50e22377-c720-41c6-b3f0-2a99ca8884b5",
+          "id": "1548498e-76af-4f61-bd48-93f5770f598e",
           "scriptName": "[界面]状态栏",
           "disabled": false,
           "runOnEdit": false,
           "findRegex": "<StatusPlaceHolderImpl/>",
-          "replaceString": "```\n<body>\n<script>\n$('body').load('https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/status-bar/index.html')\n</script>\n</body>\n```",
+          "replaceString": "```\n<body>\n<script>\n$('body').load('https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.2/web/status-bar/index.html')\n</script>\n</body>\n```",
           "trimStrings": [],
           "placement": [
             2
@@ -71,7 +71,7 @@
         "scripts": [
           {
             "name": "mvu",
-            "id": "efc08ffb-e64d-45c5-91a7-fc6d3853b1ff",
+            "id": "32339b32-357e-48d4-af32-493e0790c483",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/MagicalAstrogy/MagVarUpdate/artifact/bundle.js';",
@@ -88,10 +88,10 @@
           },
           {
             "name": "变量结构",
-            "id": "7fcf1170-9c1f-457b-b1fc-fcf8b85d5ef8",
+            "id": "739f8d73-5825-4a90-86b8-a8564704da8b",
             "enabled": true,
             "type": "script",
-            "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';\nimport 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/schema/index.js';",
+            "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';\nimport 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.2/web/schema/index.js';",
             "info": "",
             "button": {
               "enabled": true,
@@ -105,10 +105,10 @@
           },
           {
             "name": "飞船主控台",
-            "id": "17b41630-10a3-433c-92c6-55b8a66c7e20",
+            "id": "62c2da8f-bf20-4923-b29b-bb4665621131",
             "enabled": true,
             "type": "script",
-            "content": "import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/console/index.js';",
+            "content": "import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.2/web/console/index.js';",
             "info": "",
             "button": {
               "enabled": true,

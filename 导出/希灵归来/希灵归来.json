@@ -15,7 +15,7 @@
       "world": "希灵归来",
       "regex_scripts": [
         {
-          "id": "1fbaf84e-81ad-4136-af4b-e87a197a2b78",
+          "id": "4d1b8bfd-2f0e-4b36-914a-11c5a591e186",
           "scriptName": "[不发送]去除变量更新",
           "disabled": false,
           "runOnEdit": false,
@@ -29,11 +29,11 @@
           "substituteRegex": 0,
           "minDepth": null,
           "maxDepth": null,
-          "markdownOnly": false,
+          "markdownOnly": true,
           "promptOnly": true
         },
         {
-          "id": "2b2acde8-fa7e-4747-9a26-d396df62acad",
+          "id": "e8857682-9941-45f8-92ad-f0ddd163b600",
           "scriptName": "[不发送]界面占位符",
           "disabled": false,
           "runOnEdit": false,
@@ -50,7 +50,7 @@
           "promptOnly": true
         },
         {
-          "id": "3a6c6915-0ef9-4f30-8357-4650c8f1e9f1",
+          "id": "538fda76-b972-47ce-8d6e-5cee7fdcaffd",
           "scriptName": "[界面]状态栏",
           "disabled": false,
           "runOnEdit": false,
@@ -71,7 +71,7 @@
         "scripts": [
           {
             "name": "mvu",
-            "id": "77b9277d-5739-43cd-802a-39a6014f904e",
+            "id": "014b25a8-16aa-4d67-9da6-a37f5c94d472",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/MagicalAstrogy/MagVarUpdate/artifact/bundle.js';",
@@ -88,7 +88,7 @@
           },
           {
             "name": "变量结构",
-            "id": "23be5cb1-b79e-4e32-b3b5-9821daa5c6f9",
+            "id": "78f05748-3917-4e5c-8cea-09aa60b37555",
             "enabled": true,
             "type": "script",
             "content": "import 'https://testingcf.jsdelivr.net/gh/StageDog/tavern_resource/dist/util/mvu_zod.js';\nimport 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/schema/index.js';",
@@ -105,7 +105,7 @@
           },
           {
             "name": "飞船主控台",
-            "id": "7451bf03-f2ce-4256-becb-96678d46ab25",
+            "id": "3c06cff6-3511-4cef-a6db-f32d3ece7ff7",
             "enabled": true,
             "type": "script",
             "content": "import 'https://cdn.jsdelivr.net/gh/sora878565552a-debug/Scarlet@v1.0.0/web/console/index.js';",
