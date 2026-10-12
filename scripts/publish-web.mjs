@@ -53,6 +53,11 @@ async function write(target, relative, source) {
 console.info('[publish] 构建产物…');
 run('pnpm', ['build']);
 
+// build 内部虽然会触发 tavern_sync，但实测并不保证重新写出导出文件。
+// 这里显式再打包一次角色卡，确保 web/ 里的卡与源码一致。
+console.info('[publish] 重新打包角色卡…');
+run('pnpm', ['bundle:card', '--', card]);
+
 console.info('[publish] 清理旧目录…');
 for (const target of ['web', '发布']) {
   await rm(path.join(root, target), { recursive: true, force: true });
