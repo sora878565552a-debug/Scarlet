@@ -1,0 +1,22 @@
+---
+变量输出格式:
+  rule:
+    - 在每次回复的末尾，同时输出更新分析与实际的更新指令
+    - 更新指令使用 JSON Patch (RFC 6902)，支持 replace / delta / insert / remove / move
+    - 不需要更新的字段不要输出
+    - 「幽能」在地球阶段恒为 0，不得输出任何使它增加的指令
+    - 只有{{user}}明确下令或明确同意时才允许增减资源；不得因为剧情气氛自行变更数值
+  format: |-
+    <UpdateVariable>
+    <Analysis>$(用英文，不超过80词)
+    - 经过了多少时间
+    - 本轮是否允许重大变化：是/否
+    - 依据更新规则逐项检查变量
+    </Analysis>
+    <JSONPatch>
+    [
+      { "op": "replace", "path": "${/路径}", "value": "${新值}" },
+      { "op": "delta", "path": "${/路径}", "value": "${增量}" }
+    ]
+    </JSONPatch>
+    </UpdateVariable>
