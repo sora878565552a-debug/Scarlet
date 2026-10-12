@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -22,7 +23,24 @@ const artifacts = [
 ];
 
 function run(command, args) {
-  execFileSync(command, args, { cwd: root, stdio: 'inherit', shell: process.platform === 'win32' });
+  // pnpm 是 .cmd 包装脚本，Node 24 不再允许直接 spawn（EINVAL），必须经 shell 执行。
+  // git 走同一路径，但提交信息改用 -F 文件传入，避免 shell 把带空格的信息拆散。
+  execFileSync(command, args, { cwd: root, stdio: 'inherit', shell: true });
+}
+
+function gitStatusIsDirty() {
+  const output = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8', shell: true });
+  return output.trim().length > 0;
+}
+
+async function commit(message) {
+  const file = path.join(tmpdir(), `xiling-publish-${Date.now()}.txt`);
+  await writeFile(file, message, 'utf8');
+  try {
+    run('git', ['commit', '-F', `"${file}"`]);
+  } finally {
+    await rm(file, { force: true });
+  }
 }
 
 async function write(target, relative, source) {
@@ -54,9 +72,9 @@ if (skipPush) {
 
 console.info('[publish] 提交并推送…');
 run('git', ['add', '-A']);
-try {
-  run('git', ['commit', '-m', 'chore(web): 重新发布界面与脚本产物']);
-} catch {
+if (gitStatusIsDirty()) {
+  await commit('chore(web): 重新发布界面与脚本产物');
+} else {
   console.info('[publish] 没有需要提交的改动。');
 }
 run('git', ['push', 'origin', 'main']);
